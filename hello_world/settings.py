@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_browser_reload",
     "app_general.apps.AppGeneralConfig",
-    "app_reports.apps.AppReportsConfig"
+    "app_reports.apps.AppReportsConfig",
+    "app_textsentiment.apps.AppTextsentimentConfig"
 ]
 
 MIDDLEWARE = [

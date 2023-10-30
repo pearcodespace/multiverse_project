@@ -1,0 +1,46 @@
+{% extends "app_general/components/base.html" %}
+{% load static %}
+{% block site_title %}Text Sentiment{% endblock site_title %}
+{% block content%}
+<div>
+    <div class="ts-header">
+        <div class="ts-title">
+            <h4>MULTIVERSE</h4>
+        </div>
+        <div class="ts-content">
+            <p>Text Segmentation Pro: Unleashing Precision and Structure in Text for Enhanced Understanding and Analysis</p>
+        </div>
+    </div>
+    <section class="ts-layout">
+        <div class="ts-info">
+            <div class="ts-centered-content">
+                <div class="ts-btn">
+                    <button class="ts-btn1" id="analyzeButton">Analyze</button>
+                    <button class="ts-btn2" onclick="window.location.href='{% url "text_sentiment" %}'">Report</button>
+                </div>
+                <div class="ts-file-upload">
+                    <input type="file" id="fileInput" accept=".csv">
+                    <div id="drop-area" class="drag-and-drop">
+                        <p>Drag and drop a text file here, or click to browse.</p>
+                    </div>
+                    <div class="file-list" id="fileList">
+                        <!-- Dropped file names will be displayed here -->
+                    </div>
+                    <div class="loading-progress" id="loadingProgress">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+                <button id="deleteButton"X</button> 
+            </div>
+        </div>
+        <div class="ts-guide">
+            <div class="result" id="analysisResult">
+                <!-- Result will be displayed here -->
+                <p>Result will be displayed here</p>
+            </div>
+        </div>
+    </section>
+    <script src="{% static 'js/myscript.js' %}"></script>
+
+</div>
+{% endblock %}

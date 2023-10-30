@@ -41,3 +41,7 @@ def app_reports_report(request, report_id):
         print('Report Not Found')
     context = {'report': one_report}
     return render(request, 'app_reports/report.html', context)
+
+def app_textsentiment(request):
+    context = {}
+    return render(request, "app_textsentiment/text_sentiment.html", context=context)

@@ -29,6 +29,7 @@ urlpatterns = [
     path("app_general/docs/", (core_views.app_general_docs), name="docs"),
     path("app_reports/", (core_views.app_reports), name="reports"),
     path("app_reports/<int:report_id>/", (core_views.app_reports_report), name="report"),
+    path("app_textsentiment/", (core_views.app_textsentiment), name="text_sentiment"),
     path("_reload_/", include("django_browser_reload.urls")),
 ]
 
