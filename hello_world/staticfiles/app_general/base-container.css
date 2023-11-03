@@ -1,0 +1,24 @@
+/* styles.css */
+
+/* CSS Styling: The embedded CSS styles define the layout and appearance of the webpage. 
+   It sets up a flexible layout with a footer at the bottom. 
+   The body element is set to a minimum height of 100% of the viewport height (100vh), 
+   and it's configured to use flexbox to handle the layout. */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* .site-content: This CSS class is used to style the main content of the page. 
+   It has a flexible layout (flex: 1) to allow the content to grow and push the footer down. */
+.site-content {
+    flex: 1;
+}
+
+/* footer: This CSS styling applies to the footer of the page. 
+   It gives the footer a black background color and white text color. */
+footer {
+    background-color: black;
+    color: white;
+}

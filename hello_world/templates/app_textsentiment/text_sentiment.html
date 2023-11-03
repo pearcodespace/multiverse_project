@@ -2,13 +2,296 @@
 {% load static %}
 {% block site_title %}Text Sentiment{% endblock site_title %}
 {% block content%}
-<div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <style>
+        /* Add inline CSS styles to your elements */
+
+
+        .ts-header {
+            flex-direction: column;
+            margin-top: 100px;
+            margin-left: 100px;
+            margin-right: 50px;
+        }
+
+        .ts-layout {
+            display: flex;
+            align-items: center;
+            margin-left: 100px;
+            margin-right: 100px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .ts-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 37%;
+            height: auto;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .ts-centered-content {
+            text-align: left;
+            flex: 1;
+        }
+
+        .ts-title {
+            font-size: 18px;
+            color: #001D6C;
+        }
+
+        .ts-content {
+            font-size: 38px;
+            font-weight: bold;
+        }
+
+        /* Media query for smaller screens (e.g., below 768px) */
+        @media (max-width: 768px) {
+            .ts-layout {
+                flex-direction: column;
+                /* Change to a stacked layout */
+            }
+
+            .ts-info,
+            .ts-guide {
+                width: 100%;
+                /* Full width for both sections */
+            }
+        }
+
+
+        .ts-btn {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+
+        }
+
+        .ts-btn .ts-btn1,
+        .ts-btn .ts-btn2 {
+            padding: 10px 20px;
+            margin-right: 10px;
+            /* Add 10px right margin between buttons */
+            cursor: pointer;
+        }
+
+        .ts-btn1 {
+            align-items: center;
+            background-color: #0F62FE;
+            border: 2px solid #0F62FE;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            display: inline-flex;
+            fill: #000;
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            height: 48px;
+            justify-content: center;
+            letter-spacing: -.8px;
+            line-height: 24px;
+            min-width: 140px;
+            outline: 0;
+            padding: 0 17px;
+            text-align: center;
+            text-decoration: none;
+            transition: all .3s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .ts-btn1:focus {
+            color: #171e29;
+        }
+
+        .ts-btn1:hover {
+            background-color: #0F62FE;
+            border-color: #0F62FE;
+            fill: #0F62FE;
+        }
+
+        .ts-btn1:active {
+            background-color: #0F62FE;
+            border-color: #0F62FE;
+            fill: #0F62FE;
+        }
+
+        @media (min-width: 768px) {
+            .ts-btn1 {
+                min-width: 170px;
+            }
+        }
+
+        .ts-btn2 {
+            align-items: center;
+            background-color: #fff;
+            border: 2px solid #0F62FE;
+            box-sizing: border-box;
+            color: #0F62FE;
+            cursor: pointer;
+            display: inline-flex;
+            fill: #0F62FE;
+            font-family: Inter, sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            height: 48px;
+            justify-content: center;
+            letter-spacing: -.8px;
+            line-height: 24px;
+            min-width: 140px;
+            outline: 0;
+            padding: 0 17px;
+            text-align: center;
+            text-decoration: none;
+            transition: all .3s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .ts-btn2:focus {
+            color: #0F62FE;
+        }
+
+        .ts-btn2:hover {
+            border-color: #0F62FE;
+            color: #0F62FE;
+            fill: #0F62FE;
+        }
+
+        .ts-btn2:active {
+            border-color: #0F62FE;
+            color: #0F62FE;
+            fill: #0F62FE;
+        }
+
+        @media (min-width: 768px) {
+            .ts-btn2 {
+                min-width: 170px;
+            }
+        }
+
+        .ts-file-upload {
+            background-color: #e8fdff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            min-width: 100px;
+            max-width: 500px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .drag-and-drop {
+            border: 2px dashed #0F62FE;
+            padding: 50px;
+            cursor: pointer;
+            font-size: large;
+        }
+
+        #editButton {
+            background-color: white;
+            margin-top: 20px;
+        }
+
+        #deleteButton {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        #deleteButton:hover {
+            background-color: #c0392b;
+        }
+
+
+
+    #analysisResult {
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center horizontally within #analysisResult */
+        padding: 20px;
+        text-align: center; /* Center text in the result view */
+    }
+
+    #analysisResult .review-all {
+    display: none; /* Hide the review section by default */
+}
+  
+    .gauge {
+        width: 200px;
+        height: 150px;
+        margin-bottom: 20px;
+    }
+
+.review-all {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.review-all1, .review-all2 {
+    flex: 1; /* Equal distribution of space for review-all1 and review-all2 */
+}
+
+.review-box {
+    flex: 1; /* Equal distribution of space for review-box elements */
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center; /* Center text in review-box */
+}
+
+/* Additional styles for h2 and p elements inside review-box */
+.review-box h2 {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.review-box p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 50px;
+
+}
+
+/* Additional styles for the Most Positive Popular Topic span */
+.review-box span#mostPositiveTopic {
+    font-weight: bold;
+    color: #001D6C; /* Change color to blue */
+    font-size: 18px;
+}
+
+
+    </style>
+</head>
+
+<body>
     <div class="ts-header">
         <div class="ts-title">
             <h4>MULTIVERSE</h4>
         </div>
         <div class="ts-content">
-            <p>Text Segmentation Pro: Unleashing Precision and Structure in Text for Enhanced Understanding and Analysis</p>
+            <p>Text Segmentation Pro: Unleashing Precision and Structure in Text for Enhanced Understanding and Analysis
+            </p>
         </div>
     </div>
     <section class="ts-layout">
@@ -16,7 +299,7 @@
             <div class="ts-centered-content">
                 <div class="ts-btn">
                     <button class="ts-btn1" id="analyzeButton">Analyze</button>
-                    <button class="ts-btn2" onclick="window.location.href='{% url "text_sentiment" %}'">Report</button>
+                    <button class="ts-btn2" id="analyzeButton">Report</button>
                 </div>
                 <div class="ts-file-upload">
                     <input type="file" id="fileInput" accept=".csv">
@@ -29,18 +312,205 @@
                     <div class="loading-progress" id="loadingProgress">
                         <div class="progress-bar" id="progressBar"></div>
                     </div>
+                    <button id="editButton">Change Title</button>
+
                 </div>
-                <button id="deleteButton"X</button> 
+                <button id="deleteButton">X</button>
             </div>
         </div>
-        <div class="ts-guide">
+        <div class="ts-analyze">
             <div class="result" id="analysisResult">
                 <!-- Result will be displayed here -->
-                <p>Result will be displayed here</p>
+                <svg class="gauge"></svg>
+                <!-- Positive Review Box -->
+                <div class="review-all">
+                    <div class="review-all1">
+                        <div class="review-box">
+                            <h2>Positive Reviews</h2>
+                            <p><span id="positiveReviewCount" >100</span></p>
+                        </div>
+                        <div class="review-box">
+                            <h2>Most Positive Popular Topic</h2>
+                            <p> <span id="mostPositiveTopic">Great Customer Service</span></p>
+                        </div>
+                    </div>
+                    <!-- Negative Review Box -->
+                    <div class="review-all2">
+                        <div class="review-box">
+                            <h2>Negative Reviews</h2>
+                            <p><span id="negativeReviewCount">25</span></p>
+                        </div>
+                        <div class="review-box">
+                            <h2>Most Positive Popular Topic</h2>
+                            <p><span id="mostPositiveTopic">Great Customer Service</span></p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
-    <script src="{% static 'js/myscript.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const dropArea = document.getElementById("drop-area");
+            const fileInput = document.getElementById("fileInput");
+            const fileList = document.getElementById("fileList");
+            const deleteButton = document.getElementById("deleteButton");
 
-</div>
-{% endblock %}
+            dropArea.addEventListener("dragover", function (e) {
+                e.preventDefault();
+                dropArea.classList.add("highlight");
+            });
+
+            dropArea.addEventListener("dragleave", function () {
+                dropArea.classList.remove("highlight");
+            });
+
+            dropArea.addEventListener("drop", function (e) {
+                e.preventDefault();
+                dropArea.classList.remove("highlight");
+
+                const files = e.dataTransfer.files;
+                displayFileNames(files);
+
+                // You can perform further actions with the dropped files here.
+            });
+
+            dropArea.addEventListener("click", function () {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener("change", function () {
+                const files = fileInput.files;
+                displayFileNames(files);
+
+                // You can perform further actions with the selected files here.
+            });
+
+            /*Delete button*/
+            deleteButton.addEventListener("click", function () {
+                // Clear the selected file(s) in the file input
+                fileInput.value = null;
+                // Clear the displayed file names
+                fileList.innerHTML = "";
+
+            });
+
+            function displayFileNames(files) {
+                fileList.innerHTML = ""; // Clear previous file names
+                for (let i = 0; i < files.length; i++) {
+                    const fileName = files[i].name;
+                    const listItem = document.createElement("p");
+                    listItem.textContent = fileName;
+                    fileList.appendChild(listItem);
+                }
+            }
+        });
+
+        const editButton = document.getElementById("editButton");
+
+        editButton.addEventListener("click", function () {
+            const fileName = fileList.querySelector("p"); // Get the first displayed file name (you can customize this logic)
+
+            if (fileName) {
+                const newName = prompt("Enter a new name for the file:", fileName.textContent);
+
+                if (newName !== null) {
+                    // Update the displayed file name with the new name
+                    fileName.textContent = newName;
+                }
+            }
+        });
+    </script>
+
+<script>
+    // Fake data for positive and negative reviews (percentages)
+    const positiveReviewPercentage = 75; // Example positive review percentage
+    const negativeReviewPercentage = 25; // Example negative review percentage
+
+    // Create a function to draw the gauge graph
+    function drawGauge(positivePercentage, negativePercentage) {
+        const width = 200;
+        const height = 150;
+        const radius = Math.min(width, height) / 2;
+        const arcWidth = 20;
+
+        const svg = d3.select(".gauge")
+            .attr("width", width)
+            .attr("height", height)
+            .append("g")
+            .attr("transform", `translate(${width / 2},${height / 2})`);
+
+        const color = d3.scaleOrdinal()
+            .domain(["Positive", "Negative"])
+            .range(["#0F62FE", "#f5f5f5"]);
+
+        const data = [
+            { category: "Positive", percentage: positivePercentage },
+            { category: "Negative", percentage: negativePercentage }
+        ];
+
+        const arc = d3.arc()
+            .innerRadius(radius - arcWidth)
+            .outerRadius(radius);
+
+        const pie = d3.pie()
+            .value(d => d.percentage)
+            .sort(null);
+
+        const g = svg.selectAll(".arc")
+            .data(pie(data))
+            .enter().append("g")
+            .attr("class", "arc");
+
+        g.append("path")
+            .attr("d", arc)
+            .style("fill", d => color(d.data.category));
+
+        g.append("text")
+            .attr("transform", d => `translate(${arc.centroid(d)})`)
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .text(d => `${d.data.category}: ${d.data.percentage}%`);
+    }
+
+
+// Function to show the result view, gauge, and review section
+function showResultView() {
+    const resultView = document.getElementById("analysisResult");
+    const reviewSection = resultView.querySelector(".review-all");
+
+    resultView.style.display = "block"; // Show the result view
+    reviewSection.style.display = "flex"; // Show the review section
+
+    // Call the drawGauge function with fake data
+    drawGauge(positiveReviewPercentage, negativeReviewPercentage);
+}
+
+// Function to clear the result view, gauge, and review section
+function clearResultView() {
+    const resultView = document.getElementById("analysisResult");
+    const reviewSection = resultView.querySelector(".review-all");
+
+    resultView.style.display = "none"; // Hide the result view
+    reviewSection.style.display = "none"; // Hide the review section
+
+    // Clear the displayed file names as well
+    fileList.innerHTML = "";
+}
+
+document.getElementById("analyzeButton").addEventListener("click", showResultView);
+
+// Delete button
+deleteButton.addEventListener("click", clearResultView);
+
+
+</script>
+
+
+
+    </div>
+    {% endblock %}
+</body>
+
+</html>
+<div>

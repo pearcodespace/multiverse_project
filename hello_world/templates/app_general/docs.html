@@ -1,49 +1,127 @@
 {% extends "app_general/components/base.html" %}
-{% block site_title %}Docs{% endblock site_title %}Docs
-{% block content%}
-<link rel="stylesheet" type="text/css" href="docs.css">
-    <div class="wrapper">
-        <h2> HOW TO USE MULTIVERSE </h2>
+{% block site_title %}Docs{% endblock %}
 
-        <div class="faq">
-            <button class="accordin">
-                Who should use the app?
-                <i class="fa-solid fa-chevron-down"></i>
-            </button>
-            <div class="pannel">
-                <p>asnjdnjfnnevunuevnunevnwevnenvisvio</p>
+{% block content %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .docs-layout{
+            margin-top: 100px;
+            margin-bottom: 100px;
+            margin-left: 200px;
+            margin-right: 200px;
+        }
+        .docs-centered-content > h2 {
+            text-align: center;
+        }
+        .accordion {
+            background-color: #f5f5f5;
+            color: #444;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+            margin: 10px;
+        }
+
+        .active,
+        .accordion:hover {
+            background-color: #ccc;
+        }
+
+        .accordion:after {
+            content: '\002B';
+            color: #777;
+            font-weight: bold;
+            float: right;
+            margin-left: 5px;
+        }
+
+        .active:after {
+            content: "\2212";
+        }
+
+        .panel {
+            padding: 0 18px;
+            background-color: white;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="docs-layout">
+        <section class="docs-centered-content">
+            <h2>HOW TO USE MULTIVERSE</h2>
+
+            <button class="accordion">Who should use the app?</button>
+            <div class="panel">
+                <p>Multiverse is designed for businesses and individuals who want to perform 
+                    text sentiment analysis for customer-related data. It can be beneficial 
+                    for customer service teams, marketers, product developers, and anyone 
+                    interested in understanding the sentiment and feedback of their customers.</p>
             </div>
-        </div>
 
-        <div class="faq">
-            <button class="accordin">
-                How to input data?
-                <i class="fa-solid fa-chevron-down"></i>
-            </button>
-            <div class="pannel">
-                <p>asnjdnjfnnevunuevnunevnwevnenvisvio</p>
+            <button class="accordion">How to input data?</button>
+            <div class="panel">
+                <p>To input data into Multiverse, you typically need to follow these steps:
+                    <br><br>
+                    - Start the app by clicking on <button onclick="window.location.href='{% url "text_sentiment" %}'">Get Started!</button> button in "home" page.<br>
+                    - Access the data input section, which be in the form of file upload(.CSV), or API integration. <br>
+                    - Enter or upload the text data you want to analyze.<br>
+                    - Select the <button>Analyze</button> button .<br>
+                    - Start the analysis process, and Multiverse will provide you with the sentiment insights based on the input data.</p>
             </div>
-        </div>
 
-        <div class="faq">
-            <button class="accordin">
-                Is my personal information safe?
-                <i class="fa-solid fa-chevron-down"></i>
-            </button>
-            <div class="pannel">
-                <p>asnjdnjfnnevunuevnunevnwevnenvisvio</p>
+            <button class="accordion">Is my personal information safe?</button>
+            <div class="panel">
+                <p>The safety of personal information is crucial. It's important to 
+                    check the app's privacy and security policies to ensure that your
+                     personal data is protected. Multiverse, like other applications,
+                      should have measures in place to safeguard user data. Look for 
+                      features such as data encryption, secure authentication, and 
+                      compliance with data protection regulations (e.g., GDPR, HIPAA, 
+                      etc.). Review the app's privacy policy and terms of use to 
+                      understand how they handle your data.</p>
             </div>
-        </div>
 
-        <div class="faq">
-            <button class="accordin">
-                HHow can we get in touch?
-                <i class="fa-solid fa-chevron-down"></i>
-            </button>
-            <div class="pannel">
-                <p>asnjdnjfnnevunuevnunevnwevnenvisvio</p>
+            <button class="accordion">How can we get in touch?</button>
+            <div class="panel">
+                <p>To get in touch with the Multiverse app's support or customer service
+                     team, you can typically find contact information on their website or 
+                     within the app itself. Look for a "Contact Us" section, which might 
+                     include options such as email, a contact form, or a support hotline. 
+                     You can reach out to them with any questions, issues, or feedback you 
+                     may have about using the app.</p>
             </div>
-        </div>
 
-    </div>
-{% endblock  %}
+            <script>
+                var acc = document.getElementsByClassName("accordion");
+                var i;
+
+                for (i = 0; i < acc.length; i++) {
+                    acc[i].addEventListener("click", function () {
+                        this.classList.toggle("active");
+                        var panel = this.nextElementSibling;
+                        if (panel.style.maxHeight) {
+                            panel.style.maxHeight = null;
+                        } else {
+                            panel.style.maxHeight = panel.scrollHeight + "px";
+                        }
+                    });
+                }
+            </script>
+        </section>
+    </section>
+</body>
+</html>
+{% endblock %}
