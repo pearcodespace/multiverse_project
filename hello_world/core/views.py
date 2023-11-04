@@ -45,3 +45,32 @@ def app_reports_report(request, report_id):
 def app_textsentiment(request):
     context = {}
     return render(request, "app_textsentiment/text_sentiment.html", context=context)
+
+def app_textsentiment(request):
+    context = {}
+    return render(request, "app_textsentiment/text_sentiment.html", context=context)  
+
+from django.http import JsonResponse
+from app_reports.models import ClothDescription
+import pandas as pd
+
+def import_data_csv(request):
+    csv_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8UatbG7-DJ76bijnpp-s_DrZXdY7FW5IZ8Ogq7tBL9u8sG97yudyPN1xVqiDetT1kIHqdh2Fi5dBR/pubhtml"
+    df = pd.read_csv(csv_url)
+    data_sets = df[["Cothing ID", "Age", "Review Text", "Rating","Department_Name"]]
+    success_indices = []
+    error_indices = []
+    for index, row in iterrows():
+        instance = ClothDescription(
+            Cloth_ID = row['Cothing ID'],
+            Age = row['Age'],
+            Review_Text = row['Review Tex'],
+            Rating = row['Rating'],
+            Department_Name = row['Department_Name'],
+        )
+        try:
+            instance.save()
+            success_indices.append(index)
+        except:
+            error_indices.append(index)
+    return JsonResponse({"success_indices": success_indices, "error_indices": error_indices})
