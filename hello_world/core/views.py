@@ -60,7 +60,7 @@ def import_data_csv(request):
     data_sets = df[["Cothing ID", "Age", "Review Text", "Rating","Department_Name"]]
     success_indices = []
     error_indices = []
-    for index, row in iterrows():
+    for index, row in data_sets.iterrows():
         instance = ClothDescription(
             Cloth_ID = row['Cothing ID'],
             Age = row['Age'],
