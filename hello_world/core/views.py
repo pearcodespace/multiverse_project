@@ -55,7 +55,7 @@ from app_reports.models import ClothDescription
 import pandas as pd
 
 def import_data_csv(request):
-    csv_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8UatbG7-DJ76bijnpp-s_DrZXdY7FW5IZ8Ogq7tBL9u8sG97yudyPN1xVqiDetT1kIHqdh2Fi5dBR/pubhtml"
+    csv_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8UatbG7-DJ76bijnpp-s_DrZXdY7FW5IZ8Ogq7tBL9u8sG97yudyPN1xVqiDetT1kIHqdh2Fi5dBR/pub?output=csv"
     df = pd.read_csv(csv_url)
     data_sets = df[["Cothing ID", "Age", "Review Text", "Rating","Department_Name"]]
     success_indices = []
