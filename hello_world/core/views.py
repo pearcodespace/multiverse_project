@@ -82,13 +82,13 @@ def import_data_csv(request):
     success_indices = []
     error_indices = []
     for index, row in data_sets.iterrows():
-        instance = ClothDescription(
+        instance = FlipkartProduct(
             product_name = row['product_name'],
             product_price = row['product_price'],
-            Rate = row['Rate'],
-            Review = row['Review'],
-            Summary = row['Summary'],
-            Sentiment = row['Sentiment']
+            rate = row['Rate'],
+            review = row['Review'],
+            summary = row['Summary'],
+            sentiment = row['Sentiment']
         )
         try:
             instance.save()
