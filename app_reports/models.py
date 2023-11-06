@@ -9,10 +9,10 @@ class ClothDescription(models.Model):
     Positive_Feedback_Count = models.IntegerField()
     Department_Name = models.CharField(max_length=255)
 
-class FlipkartProduct(models.Model):
-    product_name = models.TextField()
-    product_price = models.IntegerField()
-    rate = models.IntegerField()
-    review = models.TextField()
-    summary = models.TextField()
-    sentiment = models.TextField()
+# class FlipkartProduct(models.Model):
+#     product_name = models.TextField()
+#     product_price = models.IntegerField()
+#     rate = models.IntegerField()
+#     review = models.TextField()
+#     summary = models.TextField()
+#     sentiment = models.TextField()

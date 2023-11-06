@@ -51,44 +51,22 @@ def app_textsentiment(request):
     return render(request, "app_textsentiment/text_sentiment.html", context=context)  
 
 from django.http import JsonResponse
-from app_reports.models import FlipkartProduct
+from app_reports.models import ClothDescription
 import pandas as pd
 
-# def import_data_csv(request):
-#     csv_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8UatbG7-DJ76bijnpp-s_DrZXdY7FW5IZ8Ogq7tBL9u8sG97yudyPN1xVqiDetT1kIHqdh2Fi5dBR/pub?output=csv"
-#     df = pd.read_csv(csv_url)
-#     data_sets = df[["Cothing ID", "Age", "Review Text", "Rating","Department_Name"]]
-#     success_indices = []
-#     error_indices = []
-#     for index, row in data_sets.iterrows():
-#         instance = ClothDescription(
-#             Cloth_ID = row['Cothing ID'],
-#             Age = row['Age'],
-#             Review_Text = row['Review Tex'],
-#             Rating = row['Rating'],
-#             Department_Name = row['Department_Name'],
-#         )
-#         try:
-#             instance.save()
-#             success_indices.append(index)
-#         except:
-#             error_indices.append(index)
-#     return JsonResponse({"success_indices": success_indices, "error_indices": error_indices})
-
 def import_data_csv(request):
-    csv_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbzeN16b1uQgbDBi2_BxVSs8S0cOuToXCZeCOl3laitVgSFd4WAum7IoTBFRrfnYQT8hPpWt9K9Acs/pub?output=csv"
+    csv_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vT8UatbG7-DJ76bijnpp-s_DrZXdY7FW5IZ8Ogq7tBL9u8sG97yudyPN1xVqiDetT1kIHqdh2Fi5dBR/pub?output=csv"
     df = pd.read_csv(csv_url)
-    data_sets = df[["product_name", "product_price", "Rate", "Review","Summary","Sentiment"]]
+    data_sets = df[["Cothing ID", "Age", "Review Text", "Rating","Department_Name"]]
     success_indices = []
     error_indices = []
     for index, row in data_sets.iterrows():
-        instance = FlipkartProduct(
-            product_name = row['product_name'],
-            product_price = row['product_price'],
-            rate = row['Rate'],
-            review = row['Review'],
-            summary = row['Summary'],
-            sentiment = row['Sentiment']
+        instance = ClothDescription(
+            Cloth_ID = row['Cothing ID'],
+            Age = row['Age'],
+            Review_Text = row['Review Tex'],
+            Rating = row['Rating'],
+            Department_Name = row['Department_Name'],
         )
         try:
             instance.save()
@@ -96,3 +74,25 @@ def import_data_csv(request):
         except:
             error_indices.append(index)
     return JsonResponse({"success_indices": success_indices, "error_indices": error_indices})
+
+# def import_data_csv(request):
+#     csv_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbzeN16b1uQgbDBi2_BxVSs8S0cOuToXCZeCOl3laitVgSFd4WAum7IoTBFRrfnYQT8hPpWt9K9Acs/pub?output=csv"
+#     df = pd.read_csv(csv_url)
+#     data_sets = df[["product_name", "product_price", "Rate", "Review","Summary","Sentiment"]]
+#     success_indices = []
+#     error_indices = []
+#     for index, row in data_sets.iterrows():
+#         instance = FlipkartProduct(
+#             product_name = row['product_name'],
+#             product_price = row['product_price'],
+#             rate = row['Rate'],
+#             review = row['Review'],
+#             summary = row['Summary'],
+#             sentiment = row['Sentiment']
+#         )
+#         try:
+#             instance.save()
+#             success_indices.append(index)
+#         except:
+#             error_indices.append(index)
+#     return JsonResponse({"success_indices": success_indices, "error_indices": error_indices})

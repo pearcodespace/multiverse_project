@@ -18,10 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from hello_world.core import views as core_views
-
-
-
+from hello_world.core import views as core_views 
 urlpatterns = [
     path("", core_views.index),
     path('admin/', admin.site.urls),
@@ -31,9 +28,8 @@ urlpatterns = [
     path("app_reports/<int:report_id>/", (core_views.app_reports_report), name="report"),
     path("app_textsentiment/", (core_views.app_textsentiment), name="text_sentiment"),
     path("_reload_/", include("django_browser_reload.urls")),
-    path("import/csv", (core_views.import_data_csv))
+    path("import/csv", core_views.import_data_csv)
 ]
-
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
