@@ -28,7 +28,8 @@ urlpatterns = [
     path("app_reports/<int:report_id>/", (core_views.app_reports_report), name="report"),
     path("app_textsentiment/", (core_views.app_textsentiment), name="text_sentiment"),
     path("_reload_/", include("django_browser_reload.urls")),
-    path("import/csv", core_views.import_data_csv)
+    path("import/csv", core_views.import_data_csv),
+    path("external_api", core_views.call_external_api)
 ]
 
 if settings.DEBUG:

@@ -6,7 +6,6 @@ class ClothDescription(models.Model):
     Age = models.IntegerField()
     Review_Text = models.CharField(max_length=255)
     Rating = models.IntegerField()
-    Positive_Feedback_Count = models.IntegerField()
     Department_Name = models.CharField(max_length=255)
 
 # class FlipkartProduct(models.Model):
