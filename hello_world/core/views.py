@@ -78,7 +78,33 @@ def import_data_csv(request):
 
 import requests
 def call_external_api(request):
-    api_url = 'https://api.aiforthai.in.th/ssense?text=สาขานี้พนักงานน่ารักให้บริการดี'
-    response = requests.get(api_url)
-    print(response.json())
+    api_url = 'https://api.aiforthai.in.th/ssense'
+    text = 'สาขานี้พนักงานน่ารักให้บริการดี'
+    params = {'text':text}
+    headers = {
+        'Apikey': "QVGlFjHSWzTOpIPL8AQWtDbSyajhXYSU"
+        }
+    response = requests.get(api_url, headers=headers, params=params)
+    print (response.json())
     return JsonResponse(response.json())
+
+import numpy as np
+from sklearn import preprocessing, svm
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+def linear_regression(request):
+    Cloth_ID = list(ClothDescription.objects.all().order_by('id').values_list('Clothing ID', flat=True))
+    Rating = list(ClothDescription.objects.all().order_by('id').values_list('Rating', flat=True))
+    X = np.array(Cloth_ID).reshape(-1, 1)
+    y = np.array(Rating).reshape(-1, 1)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25)
+    regr = LinearRegression()
+    regr.fit(X_train, y_train)
+    y_pred = regr.predict(X)
+    json_output = {
+        'Clothing_ID': Cloth_ID,
+        'Rating': Rating,
+        'predict_rating': list(y_pred.flat)
+        }
+    return JsonResponse(json_output)
