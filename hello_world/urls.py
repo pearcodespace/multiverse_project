@@ -29,7 +29,8 @@ urlpatterns = [
     path("app_textsentiment/", (core_views.app_textsentiment), name="text_sentiment"),
     path("_reload_/", include("django_browser_reload.urls")),
     path("import/csv", core_views.import_data_csv),
-    path("external_api", core_views.call_external_api)
+    path("external_api", core_views.call_external_api),
+    path("visualize", core_views.linear_regression)
 ]
 
 if settings.DEBUG:

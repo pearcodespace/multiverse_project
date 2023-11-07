@@ -94,7 +94,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 
 def linear_regression(request):
-    Cloth_ID = list(ClothDescription.objects.all().order_by('id').values_list('Clothing ID', flat=True))
+    Cloth_ID = list(ClothDescription.objects.all().order_by('id').values_list('Cloth_ID', flat=True))
     Rating = list(ClothDescription.objects.all().order_by('id').values_list('Rating', flat=True))
     X = np.array(Cloth_ID).reshape(-1, 1)
     y = np.array(Rating).reshape(-1, 1)
@@ -103,7 +103,7 @@ def linear_regression(request):
     regr.fit(X_train, y_train)
     y_pred = regr.predict(X)
     json_output = {
-        'Clothing_ID': Cloth_ID,
+        'Cloth_ID': Cloth_ID,
         'Rating': Rating,
         'predict_rating': list(y_pred.flat)
         }
