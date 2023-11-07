@@ -69,7 +69,7 @@ def import_data_csv(request):
             Department_Name = row['Department Name']
         )
         # try:
-    instance.save()
+        instance.save()
         #     success_indices.append(index)
         # except:
         #     error_indices.append(index)
