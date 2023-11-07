@@ -78,7 +78,7 @@ def import_data_csv(request):
 
 import requests
 def call_external_api(request):
-    api_url = ' '
+    api_url = 'https://api.aiforthai.in.th/ssense?text=สาขานี้พนักงานน่ารักให้บริการดี'
     response = requests.get(api_url)
     print(response.json())
     return JsonResponse(response.json())
