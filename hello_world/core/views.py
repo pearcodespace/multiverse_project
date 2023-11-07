@@ -68,34 +68,12 @@ def import_data_csv(request):
             Rating = int(row['Rating']),
             Department_Name = row['Department Name']
         )
-        # try:
-        instance.save()
-        #     success_indices.append(index)
-        # except:
-        #     error_indices.append(index)
+        try:
+            instance.save()
+            success_indices.append(index)
+        except:
+            error_indices.append(index)
     return JsonResponse({"success_indices": success_indices, "error_indices": error_indices})
-
-# def import_data_csv(request):
-#     csv_url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTbzeN16b1uQgbDBi2_BxVSs8S0cOuToXCZeCOl3laitVgSFd4WAum7IoTBFRrfnYQT8hPpWt9K9Acs/pub?output=csv"
-#     df = pd.read_csv(csv_url)
-#     data_sets = df[["product_name", "product_price", "Rate", "Review","Summary","Sentiment"]]
-#     success_indices = []
-#     error_indices = []
-#     for index, row in data_sets.iterrows():
-#         instance = FlipkartProduct(
-#             product_name = row['product_name'],
-#             product_price = row['product_price'],
-#             rate = row['Rate'],
-#             review = row['Review'],
-#             summary = row['Summary'],
-#             sentiment = row['Sentiment']
-#         )
-#         try:
-#             instance.save()
-#             success_indices.append(index)
-#         except:
-#             error_indices.append(index)
-#     return JsonResponse({"success_indices": success_indices, "error_indices": error_indices})
 
 import requests
 def call_external_api(request):
