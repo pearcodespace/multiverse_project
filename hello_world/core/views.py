@@ -62,10 +62,10 @@ def import_data_csv(request):
     error_indices = []
     for index, row in data_sets.iterrows():
         instance = ClothDescription(
-            Cloth_ID = int(row['Clothing ID']),
-            Age = int(row['Age']),
+            Cloth_ID = row['Clothing ID'],
+            Age = row['Age'],
             Review_Text = row['Review Text'],
-            Rating = int(row['Rating']),
+            Rating = row['Rating'],
             Department_Name = row['Department Name']
         )
         try:
@@ -75,9 +75,10 @@ def import_data_csv(request):
             error_indices.append(index)
     return JsonResponse({"success_indices": success_indices, "error_indices": error_indices})
 
+
 import requests
 def call_external_api(request):
-    api_url = 'http://yoursite.com/edd-api/reviews/?key=c281cf0a95be875d9eeb284fb004c938&token=5f9432f3ffa5945755ebc66179810d70&download_id=1568'
+    api_url = 'https://api.untappd.com/v4/method_name?access_token=ACESSTOKENHERE'
     respond = requests.get(api_url)
     print(response.json())
     return JsonResponse(response.json())
