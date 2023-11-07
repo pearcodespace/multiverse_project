@@ -1,8 +1,8 @@
 {% extends "app_general/components/base.html" %}
-{% block site_title %}Docs{% endblock site_title %}Docs
-{% block content%}
+{% block site_title %}Docs{% endblock site_title %}
+{% block content %}
 <div>
-    <h2> All Report </h2>
+    <h2>All Report</h2>
     {% for report in reports %}
         <div style="background-color: lightblue">
             <h3><a href="{% url "report" report.id %}">{{ report.title }}</a></h3>
@@ -12,4 +12,51 @@
         <p>No result</p>
     {% endfor %}
 </div>
-{% endblock  %}
+</div>
+
+<!-- D3 Section -->
+<div class="text-danger">Red: Real Cloth_ID data plot</div>
+<div class="text-primary">Blue: Prediction Cloth_ID data plot</div>
+<div id="visual"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@0.24"></script>
+
+<button onclick="refresh_visual()">Refresh Visualize</button>
+<script>
+    async function refresh_visual() {
+        try {
+            const response = await axios.get('https://miniature-fiesta-4j7vv5gvpj743jqp5-8000.app.github.dev/visualize/linear_regression');
+            const linear_api = response.data;
+
+            let real_datas = [];
+            let predicts = [];
+            linear_api['Cloth_ID'].forEach((data, index) => {
+                let real_obj = {
+                    "Cloth_ID": data,
+                    "Rating": linear_api['Rating'][index]
+                }
+                let pred_obj = {
+                    "Cloth_ID": data,
+                    "Rating": linear_api['predict_rating'][index]
+                }
+                real_datas.push(real_obj);
+                predicts.push(pred_obj);
+            });
+            const plot = Plot.plot({
+                marks: [
+                    Plot.dotY(real_datas, { x: "Cloth_ID", y: "Rating", tip: "x", stroke: "red" }),
+                    Plot.dotY(predicts, { x: "Cloth_ID", y: "Rating", tip: "x", stroke: "blue" }),
+                ]
+            });
+            const div = document.getElementById('visual');
+            div.innerHTML = ''; // Clear the existing content
+            div.appendChild(plot);
+        } catch (error) {
+            console.error("Error fetching data: " + error);
+        }
+    }
+    refresh_visual();
+</script>
+{% endblock %}
