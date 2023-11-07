@@ -78,7 +78,7 @@ def import_data_csv(request):
 
 import requests
 def call_external_api(request):
-    api_url = 'https://api.untappd.com/v4/method_name?access_token=ACESSTOKENHERE'
-    respond = requests.get(api_url)
+    api_url = ' '
+    response = requests.get(api_url)
     print(response.json())
     return JsonResponse(response.json())
