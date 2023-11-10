@@ -16,3 +16,9 @@ To run this application:
 ```python
 python manage.py runserver
 ```
+Mutiverse Group Member
+1. Pacharada Sano 6322772235
+2. Vanvarot Soontornchart 6322772870
+3. Yanisa Pareephan 6322774017
+4. Artistaya Coomvan 6322790161
+5. Issaree Sritirat 6322790187
