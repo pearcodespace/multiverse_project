@@ -108,3 +108,69 @@ def linear_regression(request):
         'predict_rating': list(y_pred.flat)
         }
     return JsonResponse(json_output)
+
+import requests
+import logging
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseNotFound
+from app_textsentiment.models import CSVFile, Text
+
+def save_csv_and_texts(request):
+    if request.method == 'POST' and request.FILES.get('file'):
+        # Assume 'file' is the uploaded CSV file
+        uploaded_file = request.FILES['file']
+        
+        # Save the CSV file to the database
+        csv_obj = CSVFile.objects.create(file=uploaded_file)
+
+        # Read the contents of the file and create Text objects
+        csv_text = uploaded_file.read().decode('utf-8')
+        text_contents = csv_text.split('\n')  # Assuming each line is a separate text
+
+        text_objects = [Text(csv_file=csv_obj, text_content=text) for text in text_contents]
+        Text.objects.bulk_create(text_objects)
+
+    return render(request, 'app_textsentiment/text_sentiment.html')
+
+from django.shortcuts import render
+from app_textsentiment.models import Text, APIResponse
+import requests
+
+API_URL = "https://api-inference.huggingface.co/models/lxyuan/distilbert-base-multilingual-cased-sentiments-student"
+headers = {"Authorization": "Bearer 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"}
+
+def query(payload):
+    response = requests.post(API_URL, headers=headers, json=payload)
+    return response.json()
+
+def import_and_send_to_api(request):
+    # Retrieve the first 100 Text objects
+    text_objects = Text.objects.all()[:100]
+
+    # Create a list to store the text content of each Text object
+    text_content_list = [text.text_content for text in text_objects]
+
+    # Join the text content into a single string (assuming the API expects a single string)
+    input_text = " ".join(text_content_list)
+
+    # Use the query function to send the input text to the API
+    output = query({
+        "inputs": input_text,
+    })
+
+    # Process the API response and save it to the APIResponse model
+    api_responses = []
+    for key, value in output.items():
+        api_response = APIResponse(result_key=key, result_value=value)
+        api_response.save()
+        api_responses.append(api_response)
+
+    # Render the API responses in a template
+    context = {"api_responses": api_responses}
+    return render(request, 'app_textsentiment/text_sentiment.html', context)
+
+def analyze_api(request):
+    # Trigger API processing and return the API response in a format suitable for the template
+    # This could be similar to the code in import_and_send_to_api
+    # For simplicity, this example returns a static response
+    return HttpResponse("<tr><td>Result Key</td><td>Result Value</td></tr>")

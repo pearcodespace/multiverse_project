@@ -9,6 +9,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <style>
         /* Add inline CSS styles to your elements */
 
@@ -317,6 +318,41 @@
                 </div>
                 <button id="deleteButton">X</button>
             </div>
+
+
+            <h1>Upload CSV File</h1>
+    
+            <!-- upload_csv.html -->
+            <form method="post" enctype="multipart/form-data" action="{% url 'save_csv_and_texts' %}">
+                {% csrf_token %}
+                <input type="file" name="file" accept=".csv" required>
+                <button type="submit">Upload</button>
+            </form>
+
+            <!-- Display API Results as a Table -->
+            <h1>API Response Table</h1>
+
+            <table border="1">
+                <thead>
+                    <tr>
+                        <th>Result Key</th>
+                        <th>Result Value</th>
+                    </tr>
+                </thead>
+                <tbody id="apiResponseTableBody">
+                    {% for api_response in api_responses %}
+                        <tr>
+                            <td>{{ api_response.result_key }}</td>
+                            <td>{{ api_response.result_value }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+
+
+
+
         </div>
         <div class="ts-analyze">
             <div class="result" id="analysisResult">

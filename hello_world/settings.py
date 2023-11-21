@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     "django_browser_reload",
     "app_general.apps.AppGeneralConfig",
     "app_reports.apps.AppReportsConfig",
-    "app_textsentiment.apps.AppTextsentimentConfig"
+    "app_textsentiment.apps.AppTextsentimentConfig",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
